@@ -1,5 +1,5 @@
 context:
-  version: "1.2.0"
+  version: "1.4.0"
 
 package:
   name: doggo
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/mr-karan/doggo/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: ddea7da5f8e6263626ffbff57e3df5e84df4343a740b2f7a8dae2505aae645d9
+  sha256: e0d043aa34fb8daa44df07558fd32fe2686eba6644d5f6834edbc8a789d42e1d
   target_directory: src
 
 build:
