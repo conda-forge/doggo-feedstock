@@ -1,5 +1,5 @@
 context:
-  version: "1.4.0"
+  version: "1.4.1"
 
 package:
   name: doggo
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/mr-karan/doggo/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: e0d043aa34fb8daa44df07558fd32fe2686eba6644d5f6834edbc8a789d42e1d
+  sha256: d707bd7948cd560c290298ba623f70681e93862eed2c8555b09b7b90f5610c9c
   target_directory: src
 
 build:
@@ -15,8 +15,10 @@ build:
   script:
     - cd src
     - go-licenses save ./cmd/doggo --save_path ../library_licenses
+    # Go 1.27's PIE binaries crash at startup on linux-ppc64le (SIGSEGV in the
+    # runtime during package init), so build a regular executable there.
     - if: unix
-      then: go build -v -o $PREFIX/bin/doggo -ldflags="-s -w" ./cmd/doggo
+      then: go build -v -o $PREFIX/bin/doggo -ldflags="-s -w" ${{ "-buildmode=exe" if ppc64le else "" }} ./cmd/doggo
       else: go build -v -o %LIBRARY_BIN%\doggo.exe -ldflags="-s" .\cmd\doggo
 
 requirements:
